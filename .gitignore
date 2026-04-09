@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment — never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TypeORM migration generated files (commit only intentional migrations)
+src/database/migrations/*.js
