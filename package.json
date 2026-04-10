@@ -22,7 +22,8 @@
     "migration:generate": "pnpm typeorm migration:generate",
     "migration:run": "pnpm typeorm migration:run",
     "migration:revert": "pnpm typeorm migration:revert",
-    "migration:show": "pnpm typeorm migration:show"
+    "migration:show": "pnpm typeorm migration:show",
+    "seed:admin": "ts-node -r tsconfig-paths/register src/database/seeds/admin.seed.ts"
   },
   "dependencies": {
     "@nestjs/bull": "^11.0.4",

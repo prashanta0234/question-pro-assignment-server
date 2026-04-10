@@ -32,7 +32,7 @@ export const envValidationSchema = Joi.object({
     .allow(''),
 
   JWT_SECRET: Joi.string()
-    .min(10)
+    .min(32)   // 256-bit minimum entropy; use 64+ chars in production
     .required(),
 
   JWT_EXPIRES_IN: Joi.string().default('15m'),
