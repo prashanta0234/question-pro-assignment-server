@@ -25,6 +25,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { GroceriesModule } from './modules/groceries/groceries.module';
+import { HealthModule } from './modules/health/health.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { QueuesModule } from './queues/queues.module';
 
 @Module({
   imports: [
@@ -45,6 +48,9 @@ import { GroceriesModule } from './modules/groceries/groceries.module';
     UsersModule,
     AuthModule,
     GroceriesModule,
+    HealthModule,
+    QueuesModule,
+    OrdersModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: GlobalExceptionFilter },

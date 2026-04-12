@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SnakeCaseNamingStrategy } from './snake-case-naming.strategy';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         migrationsRun: true,
+
+        namingStrategy: new SnakeCaseNamingStrategy(),
 
         synchronize: false,
 

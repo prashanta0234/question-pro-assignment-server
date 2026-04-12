@@ -17,6 +17,8 @@ export const mockRepository = () => ({
     take: jest.fn().mockReturnThis(),
     setLock: jest.fn().mockReturnThis(),
     withDeleted: jest.fn().mockReturnThis(),
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    innerJoinAndSelect: jest.fn().mockReturnThis(),
     getManyAndCount: jest.fn(),
     getMany: jest.fn(),
     getOne: jest.fn(),

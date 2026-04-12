@@ -40,6 +40,7 @@ async function bootstrap(): Promise<void> {
     origin: allowedOrigins.length > 0 ? allowedOrigins : false,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Idempotency-Key'],
+    exposedHeaders: ['X-Request-Id'],  // clients must see this header for tracing
     credentials: true,
   });
 

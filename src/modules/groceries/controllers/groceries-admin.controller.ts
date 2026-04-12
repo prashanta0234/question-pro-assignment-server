@@ -25,7 +25,7 @@ import { GroceryInventoryService } from '../services/grocery-inventory.service';
 import { CreateGroceryDto } from '../dto/create-grocery.dto';
 import { UpdateGroceryDto } from '../dto/update-grocery.dto';
 import { UpdateInventoryDto } from '../dto/update-inventory.dto';
-import { GroceryQueryDto } from '../dto/grocery-query.dto';
+import { AdminGroceryQueryDto } from '../dto/admin-grocery-query.dto';
 import { GroceryItem } from '../entities/grocery-item.entity';
 import { PaginatedResult } from '../../../common/interfaces/paginated-result.interface';
 
@@ -61,10 +61,9 @@ export class GroceriesAdminController {
   })
   @ApiResponse({ status: 200, description: 'Paginated listing (admin view)' })
   findAll(
-    @Query() query: GroceryQueryDto,
-    @Query('includeDeleted') includeDeleted?: string,
+    @Query() query: AdminGroceryQueryDto,
   ): Promise<PaginatedResult<GroceryItem>> {
-    return this.readService.findAll(query, includeDeleted === 'true');
+    return this.readService.findAll(query, query.includeDeleted === true);
   }
 
   @Get(':id')

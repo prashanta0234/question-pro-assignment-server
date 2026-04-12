@@ -1,17 +1,4 @@
-/**
- * Admin Seed Script
- *
- * Creates the first ADMIN user if one doesn't already exist.
- * Admin accounts MUST NOT be created via the public /auth/register endpoint —
- * that endpoint only creates USER role accounts (by design, per security.md).
- *
- * Usage:
- *   pnpm seed:admin
- *
- * Credentials are read from environment variables:
- *   ADMIN_EMAIL    — defaults to admin@example.com
- *   ADMIN_PASSWORD — must be set; no default for security
- */
+
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';

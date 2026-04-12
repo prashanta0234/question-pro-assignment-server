@@ -143,7 +143,7 @@ describe('AuditService', () => {
         ipAddress: '10.0.0.1',
         userAgent: 'Mozilla/5.0',
         requestId: 'req-uuid-999',
-        failureReason: null,
+        failureReason: undefined,
         metadata: { extra: 'info' },
       };
 

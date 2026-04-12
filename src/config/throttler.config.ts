@@ -23,5 +23,10 @@ export const throttlerConfig: ThrottlerModuleOptions = {
       ttl: 60_000,
       limit: 5,     // 5 req/min per IP — prevents account spam
     },
+    {
+      name: 'orders',
+      ttl: 60_000,
+      limit: 20,    // 20 req/min per authenticated user — prevents order flooding
+    },
   ],
 };

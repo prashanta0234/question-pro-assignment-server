@@ -30,7 +30,7 @@ export class AuditLog {
   @Column({ length: 45 })
   ipAddress: string;
 
-  @Column({ length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   userAgent: string | null;
 
   @Column({ length: 100 })
