@@ -111,6 +111,70 @@ pnpm test:cov
 
 ---
 
+## Load and Stress Testing
+
+Tests are in the `k6/` directory and require [Grafana k6](https://k6.io/docs/get-started/installation/).
+
+Install k6:
+
+```bash
+# macOS
+brew install k6
+
+# Linux (Debian/Ubuntu)
+sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+  --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" \
+  | sudo tee /etc/apt/sources.list.d/k6.list
+sudo apt-get update && sudo apt-get install k6
+```
+
+Before running any test, make sure the API is running and groceries are seeded:
+
+```bash
+pnpm start:dev
+pnpm seed:groceries
+```
+
+### Load tests (one endpoint group at a time)
+
+```bash
+k6 run k6/01-health.js
+k6 run k6/02-auth.js
+k6 run k6/03-groceries-public.js
+k6 run k6/04-orders.js
+k6 run k6/05-admin-groceries.js
+```
+
+### Stress test (all endpoints mixed, ramps to 600 VUs)
+
+```bash
+k6 run k6/stress.js
+```
+
+### Smoke test (quick sanity check — 1 VU, 30 seconds)
+
+```bash
+k6 run --vus 1 --duration 30s k6/03-groceries-public.js
+```
+
+### Override admin credentials
+
+```bash
+k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret k6/stress.js
+```
+
+| Test file                 | Endpoints covered                             | Peak VUs |
+|---------------------------|-----------------------------------------------|----------|
+| `k6/01-health.js`         | GET /health                                   | 200      |
+| `k6/02-auth.js`           | POST /auth/register, POST /auth/login         | 30       |
+| `k6/03-groceries-public.js` | GET /groceries, GET /groceries/:id          | 300      |
+| `k6/04-orders.js`         | POST /orders, GET /orders, GET /orders/:id    | 200      |
+| `k6/05-admin-groceries.js`| All /admin/groceries CRUD + inventory         | 45       |
+| `k6/stress.js`            | All endpoints mixed                           | 600      |
+
+---
+
 ## Swagger Docs
 
 Only available when `NODE_ENV` is not `production`.
