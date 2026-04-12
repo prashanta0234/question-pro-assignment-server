@@ -15,6 +15,7 @@ import { envValidationSchema } from './config/env.validation';
 import { buildLoggerConfig } from './config/logger.config';
 import { throttlerConfig } from './config/throttler.config';
 import { DatabaseModule } from './database/database.module';
+import { RedisModule } from './modules/redis/redis.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -23,6 +24,7 @@ import { CustomThrottlerGuard } from './common/guards/throttler.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuditModule } from './modules/audit/audit.module';
+import { GroceriesModule } from './modules/groceries/groceries.module';
 
 @Module({
   imports: [
@@ -38,14 +40,15 @@ import { AuditModule } from './modules/audit/audit.module';
     ThrottlerModule.forRoot(throttlerConfig),
 
     DatabaseModule,
+    RedisModule,
     AuditModule,
     UsersModule,
     AuthModule,
+    GroceriesModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: GlobalExceptionFilter },
     { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
-    // Guard order matters: throttle → JWT → roles
     { provide: APP_GUARD, useClass: CustomThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
