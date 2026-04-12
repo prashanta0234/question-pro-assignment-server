@@ -19,7 +19,13 @@ describe('Auth (E2E)', () => {
   });
 
   afterEach(async () => {
-    // Clean auth-related tables between tests to ensure isolation
+    // Wait for fire-and-forget audit writes to land before wiping the table,
+    // otherwise a slow async write from the previous test bleeds into the next.
+    await new Promise((r) => setTimeout(r, 100));
+
+    // Delete in FK dependency order: children before parents
+    await dataSource.query('DELETE FROM order_items');
+    await dataSource.query('DELETE FROM orders');
     await dataSource.query('DELETE FROM audit_logs');
     await dataSource.query('DELETE FROM users');
   });

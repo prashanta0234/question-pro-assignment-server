@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 
 /**
@@ -7,9 +7,17 @@ import { ThrottlerGuard } from '@nestjs/throttler';
  *
  * This prevents a single user from bypassing per-IP limits by rotating IPs,
  * and prevents IP-based limits from penalising all users behind a NAT.
+ *
+ * Set SKIP_THROTTLE=true to disable rate limiting (used in E2E tests so
+ * the per-IP thresholds do not interfere with test assertions).
  */
 @Injectable()
 export class CustomThrottlerGuard extends ThrottlerGuard {
+  override async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (process.env.SKIP_THROTTLE === 'true') return true;
+    return super.canActivate(context) as Promise<boolean>;
+  }
+
   protected async getTracker(req: Record<string, unknown>): Promise<string> {
     const user = req['user'] as { sub?: string } | undefined;
     if (user?.sub) {

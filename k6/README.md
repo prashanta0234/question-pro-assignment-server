@@ -50,7 +50,7 @@ pnpm seed:groceries
 Pass them with `-e`:
 
 ```bash
-k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret 03-groceries-public.js
+k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret ./03-groceries-public.js
 ```
 
 ---
@@ -70,30 +70,41 @@ k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret 03-groceries-pu
 
 ## Running Tests
 
-### Individual load test
+Run from inside the `k6/` directory, or from the `server/` directory with `./k6/` prefix.
+Never use `k6/` (without `./`) — that prefix is reserved for k6's built-in modules.
+
+### From the server/ directory
 
 ```bash
-k6 run k6/01-health.js
-k6 run k6/02-auth.js
-k6 run k6/03-groceries-public.js
-k6 run k6/04-orders.js
-k6 run k6/05-admin-groceries.js
+k6 run ./k6/01-health.js
+k6 run ./k6/02-auth.js
+k6 run ./k6/03-groceries-public.js
+k6 run ./k6/04-orders.js
+k6 run ./k6/05-admin-groceries.js
 ```
 
 ### Stress test
 
 ```bash
-k6 run k6/stress.js
+k6 run ./k6/stress.js
+```
+
+### From inside the k6/ directory
+
+```bash
+cd k6
+k6 run ./01-health.js
+k6 run ./stress.js
 ```
 
 ### Override VU count or duration
 
 ```bash
 # Quick smoke test: 1 VU, 30 seconds
-k6 run --vus 1 --duration 30s k6/03-groceries-public.js
+k6 run --vus 1 --duration 30s ./k6/03-groceries-public.js
 
 # Spike: jump straight to 500 VUs for 1 minute
-k6 run --vus 500 --duration 1m k6/stress.js
+k6 run --vus 500 --duration 1m ./k6/stress.js
 ```
 
 ### With Grafana / InfluxDB output (real-time dashboard)

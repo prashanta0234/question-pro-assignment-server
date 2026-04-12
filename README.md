@@ -138,30 +138,33 @@ pnpm seed:groceries
 
 ### Load tests (one endpoint group at a time)
 
+> Note: always use `./k6/` (with `./`) — `k6/` without the prefix conflicts with k6's
+> built-in module namespace and causes a "couldn't be found on local disk" error.
+
 ```bash
-k6 run k6/01-health.js
-k6 run k6/02-auth.js
-k6 run k6/03-groceries-public.js
-k6 run k6/04-orders.js
-k6 run k6/05-admin-groceries.js
+k6 run ./k6/01-health.js
+k6 run ./k6/02-auth.js
+k6 run ./k6/03-groceries-public.js
+k6 run ./k6/04-orders.js
+k6 run ./k6/05-admin-groceries.js
 ```
 
 ### Stress test (all endpoints mixed, ramps to 600 VUs)
 
 ```bash
-k6 run k6/stress.js
+k6 run ./k6/stress.js
 ```
 
 ### Smoke test (quick sanity check — 1 VU, 30 seconds)
 
 ```bash
-k6 run --vus 1 --duration 30s k6/03-groceries-public.js
+k6 run --vus 1 --duration 30s ./k6/03-groceries-public.js
 ```
 
 ### Override admin credentials
 
 ```bash
-k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret k6/stress.js
+k6 run -e ADMIN_EMAIL=admin@example.com -e ADMIN_PASSWORD=secret ./k6/stress.js
 ```
 
 | Test file                 | Endpoints covered                             | Peak VUs |
